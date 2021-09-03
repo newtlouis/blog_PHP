@@ -15,3 +15,10 @@
     </nav>
 
     <div class="container mt-4">
+
+    <?= $content ?>
+
+    </div>
+    
+</body>
+</html>

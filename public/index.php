@@ -1,20 +1,11 @@
 <?php require '../vendor/autoload.php';
 
-// Démarrage router
-$router = new AltoRouter();
+$router = new App\Router(dirname(__DIR__) . '/views');
+$router
+        ->get('/blog','/post/index','blog')
+        ->get('/blog/category','/category/show','category')     
+        ->run();
 
-// cst
-define('VIEW_PATH' , dirname(__DIR__) . '/views');
 
-// Création url
-$router -> map('GET','/blog', function () {
-    require VIEW_PATH . '/post/index.php';
-});
-$router -> map('GET','/blog/category', function () {
-    require VIEW_PATH . '/category/show.php';
-});
 
-// url correspond à une des routes ? target = la fonction callback
-$match = $router->match();
-$match['target']();
 
