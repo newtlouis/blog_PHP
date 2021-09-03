@@ -30,7 +30,7 @@ CREATE TABLE post_category (
         FOREIGN KEY (category_id)
         REFERENCES category (id)
         ON DELETE CASCADE
-        ON UPDATE RESTRICT,
+        ON UPDATE RESTRICT
 )
 
 CREATE TABLE user (
@@ -38,5 +38,4 @@ CREATE TABLE user (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
-)
 )
