@@ -1,4 +1,4 @@
-<?php require '../vendor/autoload.php';
+<?php require dirname(__DIR__) . '/vendor/autoload.php';
 
 // microtime donne le temps actuel en ms
 define('DEBUG_TIME' , microtime(true));
