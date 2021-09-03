@@ -20,9 +20,11 @@ class Router{
     }
 
     // Affiche la page s'il y a un match avec l'url
+    // $router appeler dans  post/index pour créer des url
     public function run() :self {
         $match = $this->router->match();
         $view = $match['target'];
+        $router =$this->router;
         ob_start();
         require $this->viewPath . $view . '.php';
         $content = ob_get_clean();

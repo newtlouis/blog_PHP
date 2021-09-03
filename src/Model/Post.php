@@ -8,6 +8,7 @@ class Post{
 
     private $id;
     private $name;
+    private $slug;
     private $content;
     private $created_at;
     private $categories = [];
@@ -24,10 +25,18 @@ class Post{
         return nl2br(htmlentities(Text::excerpt($this->content,60)));
     }
 
-    public function getCreatedAt(): DateTime{
-        return new DateTime($this->created_at);
+    public function getCreatedAt(): \DateTime{
+        return new \DateTime($this->created_at);
+    }
+
+    public function getSlug(): ?string {
+        return $this->slug;
     }
     
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 }
 
 ?>
