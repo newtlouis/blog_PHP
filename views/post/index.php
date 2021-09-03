@@ -1,11 +1,8 @@
 <?php 
-
-
 // importation base de donnée
 require dirname(dirname(__DIR__)) . '/db/db.php';
 
 // Importation namespace Text
-use App\Helpers\Text;
 use App\Model\Post;
 
 $title = 'Mon blog';
@@ -24,6 +21,7 @@ $posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title"> <?= $post->getName() ?> </h5>
+                <p class="text-muted"><?= $post->getCreatedAt()->format('d/m/Y') ?></p>
                 <p><?= $post->getExcerpt() ?></p>
                 <p>
                     <a href="#" class="btn btn-primary">Voir plus</a>
