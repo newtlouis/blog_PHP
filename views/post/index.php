@@ -7,8 +7,22 @@ use App\Model\Post;
 
 $title = 'Mon blog';
 
-// Pagination
-$currentPage = (int)($_GET['page'] ?? 1 );
+// PAGINATION
+// Est-ce que le numéro de l'url est bien un entier ?
+$page = $_GET['page'] ?? 1;
+if (!filter_var($page , FILTER_VALIDATE_INT)){
+    throw new Exception('Numéro de page invalide');  
+}
+
+// redirection page=1 vers home
+if($page ==='1'){
+    header('Location:' .$router->generate('home'));
+    http_response_code(301);
+    exit();
+}
+
+// Est-ce que le numéro de l'url est bien un entier positif ?
+$currentPage = (int)$page;
 if ($currentPage <= 0){
     throw new Exception('Numéro de page invalide');
 }
@@ -21,12 +35,10 @@ if ($currentPage > $pages){
 
 // On récupère les datas et on les insère dans la class Post
 $offset = $perPage *($currentPage - 1);
-// dd($offset);
 $query = $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
 $posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
 
 ?>
-
 
 <h1>Mon blog</h1>
 <div class="row">
@@ -37,3 +49,13 @@ $posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
     <?php endforeach ?>
 </div>
 
+<!-- Pagination -->
+
+<div class="d-flex justify-content-between my-4">
+    <?php if($currentPage > 1): ?>
+        <a class="btn btn-primary" href=" <?php $router->generate('home') ?>?page=<?= $currentPage -1 ?> ">Page précédente</a>
+    <?php endif ?>
+    <?php if($currentPage < $pages): ?>
+        <a class="btn btn-primary ml-auto" href=" <?php $router->generate('home') ?>?page=<?= $currentPage + 1 ?> ">Page suivante</a>
+    <?php endif ?>
+</div>
