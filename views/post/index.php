@@ -14,12 +14,12 @@ if (!filter_var($page , FILTER_VALIDATE_INT)){
     throw new Exception('Numéro de page invalide');  
 }
 
-// redirection page=1 vers home
-if($page ==='1'){
-    header('Location:' .$router->generate('home'));
-    http_response_code(301);
-    exit();
-}
+// // redirection page=1 vers home
+// if($page ==='1'){
+//     header('Location:' .$router->generate('home'));
+//     http_response_code(301);
+//     exit();
+// }
 
 // Est-ce que le numéro de l'url est bien un entier positif ?
 $currentPage = (int)$page;
