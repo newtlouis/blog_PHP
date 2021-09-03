@@ -12,12 +12,14 @@ class Router{
         $this->router = new \AltoRouter();
     }
 
+    // lier url avec chemin
     public function get(string $url , string $view , ?string $name = null ): self {
         $this->router->map('GET' , $url , $view , $name);
 
         return $this;
     }
 
+    // Affiche la page s'il y a un match avec l'url
     public function run() :self {
         $match = $this->router->match();
         $view = $match['target'];
