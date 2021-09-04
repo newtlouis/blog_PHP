@@ -8,8 +8,8 @@ $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register(); 
 
+// réécrire l'url sans le paramêtre page=1
 if(isset($_GET['page']) && $_GET['page'] ==='1' ){
-        // réécrire l'url sans le paramêtre page
         $uri = explode('?',$_SERVER['REQUEST_URI'])[0];
         // Si modification des $_GET/POST.. créer une variable intermédiaire
         $get = $_GET;
