@@ -1,7 +1,7 @@
 <?php 
 // Importation pdo database
 require dirname(dirname(__DIR__)) . '/db/db.php';
-use App\Model\Post;
+use App\Model\{Post,Category};
 
 $id = (int)$params['id'];
 $slug = $params['slug'];
@@ -33,8 +33,10 @@ if ($post === false){
 // CATEGORIES
 $query = $pdo->prepare('SELECT * FROM post_category pc JOIN category c ON pc.category_id = c.id WHERE pc.post_id = :id');
 $query->execute(['id' => $post->getId()]);
-$category = $query->fetchAll();
-dd($category, $post->getId());
+$query->setFetchMode(PDO::FETCH_CLASS, Category::class);
+
+/** @var Category[] */
+$categories = $query->fetchAll();
 
 ?>
 
@@ -43,5 +45,13 @@ dd($category, $post->getId());
 
 <h1 class="card-title"> <?=htmlentities($post->getName()) ?> </h1>
     <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
+
+    <?php foreach($categories as $k=>$category): ?>
+        <?php if($k>0): ?>
+            ,       
+        <?php endif ?>    
+        <a href="<?= $router->generate('category',['id' => $category->getID(), 'slug' => $category->getSlug()]) ?>"> <?= htmlentities($category->getName())  ?> </a>
+    <?php endforeach ?>
+
     <p><?= $post->getFormatedContent() ?></p>
  
