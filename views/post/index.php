@@ -24,6 +24,7 @@ $offset = $perPage *($currentPage - 1);
 $query = $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
 $posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
 
+
 ?>
 
 <h1>Mon blog</h1>
