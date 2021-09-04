@@ -4,28 +4,14 @@ require dirname(dirname(__DIR__)) . '/db/db.php';
 
 // Importation namespace Text
 use App\Model\Post;
+use App\URL;
 
 $title = 'Mon blog';
 
 // PAGINATION
-// Est-ce que le numéro de l'url est bien un entier ?
-$page = $_GET['page'] ?? 1;
-if (!filter_var($page , FILTER_VALIDATE_INT)){
-    throw new Exception('Numéro de page invalide');  
-}
+// Est-ce que le numéro de l'url est bien un entier et positif ?
+$currentPage = URL::getPositivInt('page', 1);
 
-// // redirection page=1 vers home
-// if($page ==='1'){
-//     header('Location:' .$router->generate('home'));
-//     http_response_code(301);
-//     exit();
-// }
-
-// Est-ce que le numéro de l'url est bien un entier positif ?
-$currentPage = (int)$page;
-if ($currentPage <= 0){
-    throw new Exception('Numéro de page invalide');
-}
 $count = (int)($pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0]);
 $perPage = 12;
 $pages = ceil($count/$perPage);
