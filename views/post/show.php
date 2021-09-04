@@ -6,6 +6,8 @@ use App\Model\Post;
 $id = (int)$params['id'];
 $slug = $params['slug'];
 
+// POST
+
 // Requête prépararer si insertion de variable venant de l'url (don't trust user)
 $query = $pdo->prepare('SELECT * FROM post WHERE id = :id');
 $query->execute(['id' => $id]);
@@ -27,6 +29,12 @@ if ($post === false){
     // http_response_code(301);
     // exit();
 // }
+
+// CATEGORIES
+$query = $pdo->prepare('SELECT * FROM post_category pc JOIN category c ON pc.category_id = c.id WHERE pc.post_id = :id');
+$query->execute(['id' => $post->getId()]);
+$category = $query->fetchAll();
+dd($category, $post->getId());
 
 ?>
 
