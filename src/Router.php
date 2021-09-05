@@ -24,6 +24,12 @@ class Router{
 
         return $this;
     }
+    // Pour créer une route acecessible en GET et POST
+    public function match(string $url , string $view , ?string $name = null ): self {
+        $this->router->map('POST|GET' , $url , $view , $name);
+
+        return $this;
+    }
 
     // Affiche la page s'il y a un match avec l'url
     // $router appeler dans  post/index pour créer des url

@@ -3,6 +3,7 @@
 namespace App\Table;
 use App\PaginatedQuery;
 use App\Connexion;
+use App\Model\Post;
 use Exception;
 
 // importation base de donnée
@@ -12,6 +13,8 @@ class PostTable extends Table{
 
     protected $table = "post";
     protected $class = Post::class;
+
+   
     
     public function findPaginatedQuery()
     {
@@ -52,6 +55,20 @@ class PostTable extends Table{
 
         if($query===false){
             throw new \Exception("Impossible de supprimer l\'article $id dans la table {$this->table}");
+        }
+    }
+
+    public function updatePost(Post $post): void
+    {
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name, content = :content WHERE id = :id ");
+        $query->execute([
+            'id' => $post->getId(),
+            'name' => $post->getName(),
+            'content' => $post->getFormatedContent()
+        ]);
+
+        if($query===false){
+            throw new \Exception("Impossible de modifier l\'article {$post->getId()} nommé {$post->getName()}");
         }
     }
 }
