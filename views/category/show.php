@@ -3,9 +3,11 @@
 require dirname(dirname(__DIR__)) . '/db/db.php';
 use App\Model\{Post,Category};
 use App\URL;
+use App\PaginatedQuery;
 
 $id = (int)$params['id'];
 $slug = $params['slug'];
+
 
 // POST
 
@@ -35,24 +37,17 @@ if ($category === false){
 // TITLE
 $title = htmlentities($category->getName());
 
-// PAGINATION
-// Est-ce que le numéro de l'url est bien un entier et positif ?
-$currentPage = URL::getPositivInt('page', 1);
 
-$count = (int)($pdo->query('SELECT COUNT(post_id) FROM post_category WHERE category_id =' . $category->getID() )->fetch(PDO::FETCH_NUM)[0]);
-$perPage = 12;
-$pages = ceil($count/$perPage);
-if ($currentPage > $pages){
-    throw new Exception('Cette page n\'existe pas');
-}
-
-// On récupère les posts qui ont cette catégorie de page et on les insère dans la class Post
-$offset = $perPage *($currentPage - 1);
-$query = $pdo->query("SELECT p.* FROM post p JOIN post_category pc ON pc.post_id = p.id WHERE pc.category_id = {$category->getID()} ORDER BY created_at DESC LIMIT $perPage OFFSET $offset ");
-$posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
-
-
-
+$paginatedQuery = new PaginatedQuery(
+    "SELECT p.* FROM post p JOIN post_category pc ON pc.post_id = p.id WHERE pc.category_id = {$category->getID()} ORDER BY created_at DESC",
+    "SELECT COUNT(post_id) FROM post_category WHERE category_id = {$category->getID()}",
+    Post::class,
+    $pdo,
+    12
+);
+// renvoie les posts de la catégorie
+$posts = $paginatedQuery->getItems() ;
+// dd($posts);
 ?>
 
 <h1>Catégorie <?= $title ?> </h1>
@@ -70,10 +65,6 @@ $posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
 $link = $router->generate('category' , ['id' => $category->getID(), 'slug' => $category->getSlug()]); 
 ?>
 <div class="d-flex justify-content-between my-4">
-    <?php if($currentPage > 1): ?>
-        <a class="btn btn-primary" href=" <?=$link ?>?page=<?= $currentPage -1 ?> ">Page précédente</a>
-    <?php endif ?>
-    <?php if($currentPage < $pages): ?>
-        <a class="btn btn-primary ml-auto" href=" <?= $link ?>?page=<?= $currentPage + 1 ?> ">Page suivante</a>
-    <?php endif ?>
-</div>
+    <?= $paginatedQuery->previousLink($link) ?>
+    <?= $paginatedQuery->nextLink($link) ?>
+       
