@@ -2,7 +2,6 @@
 
 namespace App\Table;
 use App\PaginatedQuery;
-use App\Model\Category;
 use App\Connexion;
 
 // importation base de donnée
@@ -10,6 +9,9 @@ require dirname(dirname(__DIR__)) . '/db/db.php';
 
 class PostTable extends Table{ 
 
+    protected $table = "post";
+    protected $class = Post::class;
+    
     public function findPaginatedQuery()
     {
         $paginatedQuery = new PaginatedQuery(
