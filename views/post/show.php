@@ -25,9 +25,9 @@ if ($post === false){
 // A ACTIVER QUAND IL Y AURA DES VRAI SLUG DANS LA BDD ! Si le slug de l'url n'est pas celui dans la bd, redirection vers l'url créée à partir du slug de la bd (don't trust user)
 // if( $post->getSlug() != $slug ){
 //     $url = $router->generate('post', ['slug' => $post->getSlug() , 'id' => $id ]);
-    // header('Location:' . $url);
-    // http_response_code(301);
-    // exit();
+//     header('Location:' . $url);
+//     http_response_code(301);
+//     exit();
 // }
 
 // CATEGORIES

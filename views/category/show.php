@@ -26,12 +26,12 @@ if ($category === false){
 
 
 // A ACTIVER QUAND IL Y AURA DES VRAI SLUG DANS LA BDD ! Si le slug de l'url n'est pas celui dans la bd, redirection vers l'url créée à partir du slug de la bd (don't trust user)
-// if( $category->getSlug() != $slug ){
-//     $url = $router->generate('category', ['slug' => $category->getSlug() , 'id' => $id ]);
-    // header('Location:' . $url);
-    // http_response_code(301);
-    // exit();
-// }
+if( $category->getSlug() != $slug ){
+    $url = $router->generate('category', ['slug' => $category->getSlug() , 'id' => $id ]);
+    header('Location:' . $url);
+    http_response_code(301);
+    exit();
+}
 
 
 // TITLE
@@ -46,10 +46,32 @@ $paginatedQuery = new PaginatedQuery(
     12
 );
 // renvoie les posts de la catégorie
-$posts = $paginatedQuery->getItems() ;
-// dd($posts);
+$posts = $paginatedQuery->getItems();
+
+$postById = [];
+foreach($posts as $post){
+    $postById[$post->getId()] = $post;
+}
+
+// Logique affichage des catégories dans les cards des posts
+$ids = [];
+foreach($posts as $post){
+    $ids[] = $post->getId();
+}
+// On récupère les catégories des posts 
+// implode pour casser un tableau et rassembler en string avec un séparateur
+$categories = $pdo  ->query('SELECT c.*, pc.post_id FROM post_category pc JOIN category c ON pc.category_id = c.id WHERE pc.post_id IN ( ' . implode(',',array_keys($postById)) . ' ) ')
+                    ->fetchAll(PDO::FETCH_CLASS, Category::class);
+// dump($categories);
+
+foreach($categories as $category){
+    $postById[$category->getPostId()]->addCategory( $category);
+}
 ?>
 
+
+
+<!-- HTML -->
 <h1>Catégorie <?= $title ?> </h1>
 
 <div class="row">
