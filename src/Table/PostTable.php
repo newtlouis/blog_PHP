@@ -3,6 +3,7 @@
 namespace App\Table;
 use App\PaginatedQuery;
 use App\Connexion;
+use Exception;
 
 // importation base de donnée
 require dirname(dirname(__DIR__)) . '/db/db.php';
@@ -42,6 +43,16 @@ class PostTable extends Table{
 
         
         
+    }
+
+    public function delete(int $id): void
+    {
+        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ? ");
+        $query->execute([$id]);
+
+        if($query===false){
+            throw new \Exception("Impossible de supprimer l\'article $id dans la table {$this->table}");
+        }
     }
 }
 

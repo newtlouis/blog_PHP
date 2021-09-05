@@ -18,6 +18,12 @@ class Router{
 
         return $this;
     }
+    // Creer cette fonction pour supprimer un article, car on ne peut pas imiter le process d'un post (DTU), la redirection vers la supp peut se faire avec GET mais pas avec POST
+    public function post(string $url , string $view , ?string $name = null ): self {
+        $this->router->map('POST' , $url , $view , $name);
+
+        return $this;
+    }
 
     // Affiche la page s'il y a un match avec l'url
     // $router appeler dans  post/index pour créer des url

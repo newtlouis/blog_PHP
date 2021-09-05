@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Table;
-use App\PaginatedQuery;
 use App\Model\{Category,Post};
-use \PDO;
 
 
 class Table{
