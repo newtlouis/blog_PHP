@@ -22,7 +22,7 @@ for ($i=0; $i < 50 ; $i++) {
 }
 
 // insertion catégorie
-for ($i=0; $i <50 ; $i++) { 
+for ($i=0; $i <10 ; $i++) { 
   $pdo->exec("INSERT INTO category SET name='{$faker->name} ', slug ='{$faker->name}'");
   $idCategories[] = $pdo->lastInsertId();
 }
