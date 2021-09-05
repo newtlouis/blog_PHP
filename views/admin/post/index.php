@@ -11,9 +11,10 @@ $pdo = Connexion::getPDO();
 [$posts, $pagination] = (new PostTable($pdo))->findPaginatedQuery();
 
 ?>
-
-<h1>Gerer mes articles</h1>
-
+<div style="display: flex; justify-content:space-between;">
+    <h1>Gerer mes articles</h1>
+    <a href="<?= $router->generate('admin_post_new') ?>" class="btn btn-primary">Créer un article</a>
+</div>
 <?php if(isset($_GET['delete'])): ?>
     <div class="alert alert-success">L'article a bien été supprimé</div>    
 <?php endif ?>
