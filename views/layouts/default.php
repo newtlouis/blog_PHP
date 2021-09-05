@@ -11,7 +11,7 @@
 </head>
 <body class="d-flex flex-column h-100 ">
     <nav class="navbar navbar-expend-lg navbar-dark bg-primary" style="padding-left:20px">
-        <a href="#" class="navbar-brand"> Mon site </a>
+        <a href="http://localhost:8000/" class="navbar-brand"> Mon site </a>
     </nav>
 
     <!-- Insertion de la page demandée -->

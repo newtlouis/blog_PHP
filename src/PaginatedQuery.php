@@ -4,28 +4,22 @@ namespace App;
 use \PDO;
 use App\Model\{Post,Category};
 
-
-
-
 class PaginatedQuery{
 
     private $query;
     private $queryCount;
-    private $classMapping;
     private $pdo;
     private $perPage;
 
     public function __construct(
         string $query,
         string $queryCount, 
-        string $classMapping, 
         \PDO $pdo, 
         int $perPage = 12
         )
     {
         $this->query = $query;
         $this->queryCount = $queryCount;
-        $this->classMapping = $classMapping;
         $this->perPage = $perPage;
         $this->pdo = $pdo;
 
