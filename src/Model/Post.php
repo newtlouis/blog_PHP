@@ -24,7 +24,7 @@ class Post{
         if($this->content == null){
             return null;
         }
-        return nl2br(htmlentities(Text::excerpt($this->content,60)));
+        return nl2br(htmlentities(Text::excerpt($this->content)));
     }
 
     public function getFormatedContent(): ?string
