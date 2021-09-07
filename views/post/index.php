@@ -2,12 +2,6 @@
 // importation base de donnée
 require dirname(dirname(__DIR__)) . '/db/db.php';
 
-// Importation namespace Text
-
-use App\Model\Category;
-use App\Model\Post;
-use App\URL;
-use App\PaginatedQuery;
 use App\Table\PostTable;
 
 $title = 'Mon blog';

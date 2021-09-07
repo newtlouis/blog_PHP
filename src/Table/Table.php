@@ -2,6 +2,7 @@
 
 namespace App\Table;
 use App\Model\{Category,Post};
+use App\Table\NotFoundException;
 
 
 class Table{
